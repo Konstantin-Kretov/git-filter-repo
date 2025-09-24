@@ -1412,14 +1412,15 @@ class FastExportParser(object):
 
 
   def _process_queue(self):
-    processed = True
-    while processed:
-      processed = False
-      if self._commits_order.current_commit_index < len(self._commits_order.commits_order) and self._commits_order.commits_order[self._commits_order.current_commit_index] in self._commits_order.commits_buffer:
-        commit = self._commits_order.commits_buffer.pop(self._commits_order.commits_order[self._commits_order.current_commit_index])
-        self._commits_order.current_commit_index += 1
-        self._process_commit(commit)
-        processed = True
+    if self._commits_order:
+      processed = True
+      while processed:
+        processed = False
+        if self._commits_order.current_commit_index < len(self._commits_order.commits_order) and self._commits_order.commits_order[self._commits_order.current_commit_index] in self._commits_order.commits_buffer:
+          commit = self._commits_order.commits_buffer.pop(self._commits_order.commits_order[self._commits_order.current_commit_index])
+          self._commits_order.current_commit_index += 1
+          self._process_commit(commit)
+          processed = True
 
 
   def _process_commit(self, commit):
